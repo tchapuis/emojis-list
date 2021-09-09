@@ -1,38 +1,53 @@
 <template>
   <div>
-    <form @submit="submitForm" action="">
-      <div><input required @change="updateImage" type="file"></div>
+    <form action="" @submit="submitForm">
+      <div><input type="file" @change="updateImage"></div>
       <div>
         <label for="image-name">Image Name: </label>
-        <input id="image-name" name="image-name" v-model="message" type="text">
+        <input id="image-name" v-model="message" name="image-name" accept="image/*" type="text">
       </div>
       <button>SAVE</button>
     </form>
   </div>
 </template>
 
-<script lang="ts">
-  import Vue from 'vue'
-  export default Vue.extend({
-    data() {
-      return {
-        message: '',
-        files: [],
-      }
+<script>
+export default {
+  data () {
+    return {
+      message: '',
+      files: []
+    }
+  },
+
+  methods: {
+    updateImage (files) {
+      const target = files.currentTarget
+      this.files = target.files
     },
 
-    methods: {
-      updateImage(files: Event) {
-        const target = files.currentTarget as HTMLInputElement;
-        this.files = target.files
-        // const file: File = target.files.item(0) as File;
-        // if (target.files) this.files = file
-      },
+    submitForm (e) {
+      e.preventDefault()
 
-      submitForm(e: Event) {
-        e.preventDefault()
-        console.log(e)
-      }
+      const formData = new FormData()
+      formData.append('message', this.message)
+
+      formData.append('file', this.files[0])
+
+      this.$axios({
+        method: 'POST',
+        url: 'http://localhost:3000/api/v1/emojis',
+        headers: {
+          'content-type': 'multipart/form-data'
+        },
+        data: formData
+      }).then((r) => {
+        console.log(r)
+      })
+
+      console.log(this.message)
+      console.log(this.files)
     }
-  })
+  }
+}
 </script>

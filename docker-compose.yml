@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    ports:
+    - "3312:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: WFsenYQWJHJ6tReXXZ5qHYe6rTkrD9wA
+      MYSQL_DATABASE: emojisList
+      MYSQL_USER: emojisList
+      MYSQL_PASSWORD: GDdAPBPS6ardDM7B2sxGU43zaQbEHQJ3
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1

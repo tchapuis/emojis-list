@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:WFsenYQWJHJ6tReXXZ5qHYe6rTkrD9wA@localhost:3312/emojisList"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model emoji {
+	id Int @id @default(autoincrement()) @unique
+	createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  image image @relation(fields: [image_id], references: [id])
+  image_id Int
+}
+
+model gif {
+	id Int @id @default(autoincrement()) @unique
+	createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  image image @relation(fields: [image_id], references: [id])
+  image_id Int
+}
+
+model sticker {
+	id Int @id @default(autoincrement()) @unique
+	createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  image image @relation(fields: [image_id], references: [id])
+  image_id Int
+}
+
+model image {
+	id Int @id @default(autoincrement()) @unique
+	name String
+	path String
+	size Int
+	format format @relation(fields: [format_id], references: [id])
+	format_id Int
+	emoji emoji?
+	gif gif?
+	sticker sticker?
+}
+
+model format {
+	id Int @id @default(autoincrement())
+	mimetype String @unique
+	image image?
+}

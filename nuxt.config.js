@@ -1,4 +1,13 @@
 export default {
+  server: {
+    port: 3000,
+    host: '0.0.0.0'
+  },
+
+  dir: {
+    static: 'public'
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'emojis-list',
@@ -37,7 +46,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
+    '@nuxtjs/eslint-module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -45,11 +54,13 @@ export default {
     '@nuxtjs/axios'
   ],
 
+  axios: {},
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
 
   serverMiddleware: [
-    { path: "/api/v1", handler: "~/api/v1/index.ts" },
-  ],
+    { path: '/api/v1', handler: '~/api/v1/index.js' }
+  ]
 }

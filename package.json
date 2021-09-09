@@ -7,26 +7,36 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "test": "jest"
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint": "npm run lint:js"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
+    "@prisma/client": "^3.0.2",
     "body-parser": "^1.19.0",
     "core-js": "^3.15.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "fs": "^0.0.1-security",
+    "mariadb": "^2.5.4",
+    "mysql2": "^2.3.0",
+    "nanoid": "^3.1.25",
+    "net": "^1.0.2",
     "nuxt": "^2.15.7",
-    "tachyons": "^4.12.0"
+    "sequelize": "^6.6.5",
+    "sharp": "^0.29.1",
+    "tachyons": "^4.12.0",
+    "tls": "^0.0.1"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.13.2",
-    "@nuxt/typescript-build": "^2.1.0",
-    "@vue/test-utils": "^1.2.1",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^27.0.5",
-    "i": "^0.3.6",
-    "jest": "^27.0.5",
-    "npm": "^7.22.0",
-    "ts-jest": "^27.0.3",
-    "vue-jest": "^3.0.4"
+    "@babel/eslint-parser": "^7.14.7",
+    "@getbigger-io/prisma-fixtures-cli": "^1.0.9",
+    "@nuxtjs/eslint-config": "^6.0.1",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "eslint": "^7.29.0",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-vue": "^7.12.1",
+    "prisma": "^3.0.2"
   }
 }
