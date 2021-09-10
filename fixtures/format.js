@@ -20,15 +20,10 @@ const formats = [
   }
 ]
 
-formats.forEach((format) => {
-  prisma.format.create({
-    data: {
-      id: format.id,
-      mimetype: format.mimetype
-    }
-  }).then((r) => {
-    console.log(r)
-  }).catch((r) => {
-    console.log(r)
-  })
+prisma.format.createMany({
+  data: formats
+}).then((r) => {
+  console.log(r)
+}).catch((r) => {
+  console.log(r)
 })

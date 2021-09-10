@@ -1,13 +1,10 @@
-const path = require('path')
-
 const express = require('express')
-
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
-const { nanoid } = require('nanoid')
 const sharp = require('sharp')
-
 const { PrismaClient } = require('@prisma/client')
+const { getImagePath } = require('../../utils/getImagePath')
+
 const prisma = new PrismaClient()
 
 const app = express()
@@ -22,18 +19,27 @@ app.use(fileUpload({
   }
 }))
 
+app.get('/emojis', async (req, res) => {
+  const query = req.query.q ?? ''
+
+  const data = await prisma.emoji.findMany({
+    where: {
+      image: {
+        name: {
+          contains: query
+        }
+      }
+    },
+    include: {
+      image: true
+    }
+  })
+
+  return res.json(data)
+})
+
 app.post('/emojis', async (req, res) => {
-  const projectDir = process.cwd()
-  const rName = nanoid()
-
-  const name = req.body.message.length === 0 ? rName : req.body.message
-
-  const publicDir = projectDir + '/public'
-
-  const extname = path.extname(req.files.file.name)
-
-  const pathFile = '/emojis/' + name + extname
-  const fullPath = publicDir + pathFile
+  const imagePath = getImagePath(req.body.message, req.files.file)
 
   const format = await prisma.format.findMany({
     where: {
@@ -41,27 +47,31 @@ app.post('/emojis', async (req, res) => {
     }
   })
 
-  const result = await prisma.image.create({
+  console.log(format)
+
+  const image = await prisma.image.create({
     data: {
-      id: 1,
-      name,
-      path: pathFile,
+      name: imagePath.name,
+      path: imagePath.pathFile,
       size: req.files.file.size,
       format_id: format[0].id
     }
   })
 
-  console.log(format)
-  return res.json({ data: 'data' })
+  await prisma.emoji.create({
+    data: {
+      image_id: image.id
+    }
+  })
 
   await sharp(req.files.file.data)
     .resize(48, 48)
-    .toFile(publicDir + '/' + name + extname, (err, info) => {
+    .toFile(imagePath.fullPath, (err, info) => {
       console.log(info)
       console.log(err)
     })
 
-  res.json({ data: 'data' })
+  return res.json({ data: 'data' })
 })
 
 export default app

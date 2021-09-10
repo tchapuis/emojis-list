@@ -1,8 +1,5 @@
 export default {
-  server: {
-    port: 3000,
-    host: '0.0.0.0'
-  },
+  target: 'static',
 
   dir: {
     static: 'public'
@@ -25,9 +22,15 @@ export default {
     ]
   },
 
+  // ENV
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    baseApiUrl: process.env.BASE_API_URL || 'http://localhost:3000/api/v1'
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'tachyons/css/tachyons.css'
+    'gandalf-css-framework/css/gandalf.min.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -54,7 +57,21 @@ export default {
     '@nuxtjs/axios'
   ],
 
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_API_URL || 'http://localhost:3000'
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BASE_API_URL
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_API_URL
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

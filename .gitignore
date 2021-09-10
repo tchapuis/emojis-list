@@ -59,6 +59,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# Public Image
+/public/**/*
+
 # dist
 dist
 .nuxt

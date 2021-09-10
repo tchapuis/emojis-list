@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:WFsenYQWJHJ6tReXXZ5qHYe6rTkrD9wA@localhost:3312/emojisList"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -11,7 +11,7 @@ generator client {
 }
 
 model emoji {
-	id Int @id @default(autoincrement()) @unique
+	id      Int      @id @default(autoincrement())
 	createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   image image @relation(fields: [image_id], references: [id])
@@ -19,7 +19,7 @@ model emoji {
 }
 
 model gif {
-	id Int @id @default(autoincrement()) @unique
+	id      Int      @id @default(autoincrement())
 	createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   image image @relation(fields: [image_id], references: [id])
@@ -27,15 +27,21 @@ model gif {
 }
 
 model sticker {
-	id Int @id @default(autoincrement()) @unique
+	id      Int      @id @default(autoincrement())
 	createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   image image @relation(fields: [image_id], references: [id])
   image_id Int
 }
 
+model format {
+	id    Int    @id @default(autoincrement())
+	mimetype String @unique
+	image image[]
+}
+
 model image {
-	id Int @id @default(autoincrement()) @unique
+	id      Int      @id @default(autoincrement())
 	name String
 	path String
 	size Int
@@ -44,10 +50,4 @@ model image {
 	emoji emoji?
 	gif gif?
 	sticker sticker?
-}
-
-model format {
-	id Int @id @default(autoincrement())
-	mimetype String @unique
-	image image?
 }
