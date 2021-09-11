@@ -51,15 +51,19 @@ export default {
   },
 
   fetch () {
-    this.$axios({
-      method: 'GET',
-      url: '/emojis'
-    }).then((r) => {
-      this.emojis = r.data
-    })
+    this.getAllEmojis()
   },
 
   methods: {
+    getAllEmojis () {
+      this.$axios({
+        method: 'GET',
+        url: '/emojis'
+      }).then((r) => {
+        this.emojis = r.data
+      })
+    },
+
     updateImage (files) {
       const target = files.currentTarget
       this.files = target.files
@@ -79,7 +83,7 @@ export default {
             this.emojis = r.data
           })
         } else {
-          this.fetch()
+          this.getAllEmojis()
         }
       }, 500)
     },
