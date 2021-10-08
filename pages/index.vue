@@ -104,11 +104,8 @@ export default {
         },
         data: formData
       }).then((r) => {
-        console.log(r)
+        this.emojis.push(r.data.emoji)
       })
-
-      console.log(this.message)
-      console.log(this.files)
     }
   },
   fetchOnServer: false
