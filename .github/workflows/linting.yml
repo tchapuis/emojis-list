@@ -33,7 +33,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm run lint:js
     - name: Save Code Linting Report JSON
-      run: npm run lint:report
+      run: npm run lint:js:report
       continue-on-error: true
     - name: Annotate Code Linting Results
       uses: ataylorme/eslint-annotate-action@1.2.0
