@@ -1,0 +1,21 @@
+html, body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+input {
+  @apply border-2 border-gray-300 p-2 transition
+}
+
+input:focus, input:active {
+  @apply border-primary-light outline-none;
+}
+
+.btn-grad {
+  background-size: 200% auto;
+  @apply transition-all transform uppercase px-8 py-3 border-2 border-primary-light text-primary-light
+}
+
+.btn-grad:hover {
+  /*bg-gradient-to-r from-primary-darker via-primary to-primary-darker*/
+  @apply text-white bg-primary border-primary scale-105;
+}
