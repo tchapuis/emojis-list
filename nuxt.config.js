@@ -30,7 +30,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'gandalf-css-framework/css/gandalf.min.css'
+    '@/assets/css/main.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -49,7 +49,9 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/google-fonts'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -79,5 +81,11 @@ export default {
 
   serverMiddleware: [
     { path: '/api/v1', handler: '~/api/v1/index.js' }
-  ]
+  ],
+  googleFonts: {
+    families: {
+      'Source+Sans+Pro': true
+    }
+  }
+
 }

@@ -38,40 +38,47 @@ app.get('/emojis', async (req, res) => {
   return res.json(data)
 })
 
-app.post('/emojis', async (req, res) => {
+app.post('/emojis', async (req, res, next) => {
   const imagePath = getImagePath(req.body.message, req.files.file)
+  let format
 
-  const format = await prisma.format.findMany({
-    where: {
-      mimetype: req.files.file.mimetype
-    }
-  })
+  try {
+    format = await prisma.format.findUnique({
+      where: {
+        mimetype: req.files.file.mimetype
+      },
+      rejectOnNotFound: true
+    })
+  } catch (e) {
+    return next(e)
+  }
 
-  console.log(format)
-
-  const image = await prisma.image.create({
+  const emoji = await prisma.emoji.create({
     data: {
-      name: imagePath.name,
-      path: imagePath.pathFile,
-      size: req.files.file.size,
-      format_id: format[0].id
-    }
-  })
-
-  await prisma.emoji.create({
-    data: {
-      image_id: image.id
+      image: {
+        create: {
+          name: imagePath.name,
+          path: imagePath.pathFile,
+          size: req.files.file.size,
+          format_id: format.id
+        }
+      }
+    },
+    include: {
+      image: true
     }
   })
 
   await sharp(req.files.file.data)
     .resize(48, 48)
-    .toFile(imagePath.fullPath, (err, info) => {
-      console.log(info)
-      console.log(err)
+    .toFile(imagePath.fullPath, (err) => {
+      if (err !== null) {
+        console.log(err)
+      }
     })
 
-  return res.json({ data: 'data' })
+  await prisma.$disconnect()
+  return res.json({ emoji })
 })
 
 export default app

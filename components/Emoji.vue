@@ -1,9 +1,9 @@
 <template>
-  <div class="emoji bg-light m-2 p-2 cursor-pointer rounded d-flex flex-column justify-content-center align-items-center" @click="clipboard(image.path)">
+  <div class="emoji" @click="clipboard(image.path)">
     <div>
-      <img :src="image.path" :alt="image.name">
+      <img :src="image.path" :alt="image.name" class="h-10 w-10">
     </div>
-    <div class="mt-2 emoji-name">
+    <div class="mt-2">
       {{ image.name }}
     </div>
   </div>
@@ -57,13 +57,11 @@ export default {
   }
 }
 </script>
-
 <style>
-.emoji {
-  width: 72px;
-  height: 72px;
-}
-.emoji-name {
-  font-size: 1rem;
-}
+  .emoji {
+    @apply w-24 bg-gray-50 border-2 border-transparent p-2 cursor-pointer flex flex-col justify-center items-center transition transform
+  }
+  .emoji:hover {
+    @apply scale-105 shadow border-primary-light
+  }
 </style>
